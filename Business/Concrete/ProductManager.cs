@@ -17,9 +17,9 @@ namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
-        IProductDal _productDal;    //Veritabanından veriyi çekmek için bir IProductDal değişkeni oluşturuyoruz.
+        IProductDal _productDal;
 
-        public ProductManager(IProductDal productDal)   //CTOR kodu ile concrete metot oluşturuyoruz.
+        public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
         }
@@ -36,9 +36,14 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
-        public List<Product> GetAll()
+        public IDataResult<List<Product>> GetAll()
         {
-            return _productDal.GetAll();   //Oluşturduğumuz IProductDal değişkenini return komutu ile ekliyoruz.
+            if (DateTime.Now.Hour==22)
+            {
+                return new ErrorDataResult();
+            }
+
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(),true,"Ürünler listelendi.");
         }
 
         public List<Product> GetAllCategoryId(int id)
