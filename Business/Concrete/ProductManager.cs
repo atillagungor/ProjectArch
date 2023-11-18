@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 using Entities.DTO_s;
 using Core.Utilities.Results;
 using Business.Constants;
+using System.ComponentModel.DataAnnotations;
+using FluentValidation;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 
 namespace Business.Concrete
 {
@@ -27,10 +31,9 @@ namespace Business.Concrete
         public IResult Add(Product product)
         {
             //business codes
-            if (product.ProductName.Length < 2)
-            {
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
+           
+            ValidationTool.Validate(new ProductValidator(), product);
+
             _productDal.Add(product);
 
             return new SuccessResult(Messages.ProductAdded);
