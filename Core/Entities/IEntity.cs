@@ -8,6 +8,5 @@ namespace Core.Entities
 {
     public interface IEntity
     {
-        //Entitylerin (veritabanındaki birimler) interfacei. Public yapılır ve concrete'deki classlara implemente edilmeli.
     }
 }

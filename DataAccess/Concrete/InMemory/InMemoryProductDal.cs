@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.InMemory
 {
-    public class InMemoryProductDal : IProductDal       //Interfacei bu classa ekliyoruz. (InMemory simüle olarak kendi verilerimizi hazırladığımız class)
+    public class InMemoryProductDal : IProductDal
     {
-        List<Product> _products;       //Global bir alanda olduğu için _ koyarak Product içeren liste oluşturuyoruz.
-        public InMemoryProductDal()    //CTOR kodu ile construct metot oluşturuyoruz.
+        List<Product> _products;
+        public InMemoryProductDal()
         {
-            _products = new List<Product>    //Globale tanımladığımız değişken ile yeni bir liste oluşturuyoruz.
+            _products = new List<Product>
             {
-                new Product {ProductId=1,CategoryId=1,ProductName="Asus Laptop",UnitPrice=40000,UnitsInStock=20},       //Bu kısımda simülasyon olarak productları ekliyoruz
+                new Product {ProductId=1,CategoryId=1,ProductName="Asus Laptop",UnitPrice=40000,UnitsInStock=20},
                 new Product {ProductId=1,CategoryId=1,ProductName="Monster Notebook",UnitPrice=42500,UnitsInStock=13},
                 new Product {ProductId=1,CategoryId=2,ProductName="IPhone 15 Pro Max 1TB",UnitPrice=95000,UnitsInStock=5},
                 new Product {ProductId=1,CategoryId=2,ProductName="Samsung Galaxy S24 Ultra",UnitPrice=92000,UnitsInStock=8},
@@ -26,14 +26,12 @@ namespace DataAccess.Concrete.InMemory
         }
         public void Add(Product product)
         {
-            _products.Add(product);        //IProductDal'ı implemente ettikten sonra Add metotunun içine, Listlerdeki veri ekleme kodunu giriyoruz.
-                                           //Parantez içinde de nereye atanacağını söylüyoruz. 
+            _products.Add(product);
         }
 
         public void Delete(Product product)
         {
-            Product productsToDelete = _products.SingleOrDefault(p => p.ProductId == product.ProductId);   //LINQ sorgusu ile foreach tarzı bir döngü açarak p değeri
-                                                                                                           //verdiğimiz Id ile bulup silme işlemini yapıyoruz.
+            Product productsToDelete = _products.SingleOrDefault(p => p.ProductId == product.ProductId);
             _products.Remove(productsToDelete);
         }
 
@@ -44,7 +42,7 @@ namespace DataAccess.Concrete.InMemory
 
         public List<Product> GetAll()
         {
-            return _products;        //Void bir metot olmadığı için ve direkt listeye _products ismini verdiğimiz için return komutu ile tüm listeyi çağırıyoruz.
+            return _products;
         }
 
         public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
@@ -54,7 +52,7 @@ namespace DataAccess.Concrete.InMemory
 
         public List<Product> GetAllByCategory(int categoryId)
         {
-            return _products.Where(p => p.CategoryId == categoryId).ToList();    //Tekrardan LINQ sorgusu ile categoryid ye göre tarıyor ve listeye çeviriyor.
+            return _products.Where(p => p.CategoryId == categoryId).ToList();
         }
 
         public List<ProductDetailDto> GetProductDetails()
@@ -64,10 +62,9 @@ namespace DataAccess.Concrete.InMemory
 
         public void Update(Product product)
         {  
-            Product productsToUpdate = _products.SingleOrDefault(p => p.ProductId == product.ProductId);   //LINQ ile update sorgusu çağırmak için deletedeki kodun benzerini
-                                                                                                            //yazıyoruz.
+            Product productsToUpdate = _products.SingleOrDefault(p => p.ProductId == product.ProductId);
             productsToUpdate.CategoryId = product.CategoryId;
-            productsToUpdate.ProductName = product.ProductName;         //ID sini bulduğumuz değerleri, veritabanındaki veriler ile güncelliyoruz.
+            productsToUpdate.ProductName = product.ProductName;
             productsToUpdate.UnitPrice = product.UnitPrice;
             productsToUpdate.UnitsInStock = product.UnitsInStock;
         }
